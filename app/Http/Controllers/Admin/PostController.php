@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use App\Post;
 
@@ -47,13 +48,15 @@ class PostController extends Controller
        $newPost = new Post();
        $newPost->fill($postData);
        $slug = Str::slug($newPost->title);
+
        //creo e inizializzo variabile che userò per il ciclo while che verifica se slug è già stato usato e aggiungerà a quello nuovo un numero
        $alternativeSlug = $slug;
        //faccio query al db per vedere se c'è già uno slug uguale
-       $postFound = Post::where('slug', $slug)->first();
+       $postFound = Post::where('slug', $alternativeSlug)->first();
        //metto un counter
        $counter = 1;
        //faccio ciclo while per verificare se $postFound e quindi lo slug è presente nel DB, e quindi è già stato usato. se si aggiunge un numero
+       /*
        while($postFound){
            //aggiunge _counter allo slug
            $alternativeSlug = $slug . '_' . $counter;
@@ -63,6 +66,8 @@ class PostController extends Controller
            $postFound = Post::where('slug', $alternativeSlug)->first();
 
        }
+*/
+
        //vado a mettere nello slug il valore di $alternativeSlug
        $newPost->slug = $alternativeSlug;
 
@@ -70,7 +75,7 @@ class PostController extends Controller
        $newPost->save();
 
        //facciamo un redirect alla lista dei post
-       return redirect()->route('admin/posts/index');
+       return redirect()->route('admin.posts.index');
 
    }
 
@@ -80,9 +85,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        if(!$post){
+            abort(404);
+        }
+        return view('admin.posts.show', compact('post'));
     }
 
     /**

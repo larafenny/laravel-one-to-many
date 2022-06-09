@@ -20,15 +20,16 @@ Route::get('/', function () {
 */
 
 
-Auth::routes();
+
+Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
 
 Route::middleware('auth')
     ->namespace('Admin')
     ->name('admin.')
     ->prefix('admin')
-    ->group(function (){
-        Route::get('/', 'HomeController@index')
-        ->name('home');
+    ->group(function () {
+        Route::get('/', 'HomeController@index')->name('index');
+        Route::resource('/posts', 'PostController');
     });
 
 
