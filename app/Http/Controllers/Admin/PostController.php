@@ -47,6 +47,9 @@ class PostController extends Controller
        $postData = $request->all();
        $newPost = new Post();
        $newPost->fill($postData);
+
+       $newPost->slug = Post::convertToSlug($newPost->title);
+
        $slug = Str::slug($newPost->title);
 
        //creo e inizializzo variabile che userò per il ciclo while che verifica se slug è già stato usato e aggiungerà a quello nuovo un numero
