@@ -112,9 +112,29 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
         //
+        $request->validate([
+            'title' => 'required|max:250',
+            'content' => 'required|min:5',
+        ],
+        [
+            'title.required' =>'Titolo deve essere valorizzato',
+            'title.max' =>'Hai superato i 250 caratteri',
+            'content.min' => 'Minimo 5 caratteri'
+        ]);
+        $postData = $request->all();
+
+        $post->fill($postData);
+
+        $post->slug = Post::convertToSlug($post->title);
+
+        $post->update();
+
+        return redirect()->route('admin.posts.index', compact('post'));
+
+
     }
 
     /**
