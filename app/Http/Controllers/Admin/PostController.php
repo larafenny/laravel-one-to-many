@@ -128,7 +128,7 @@ class PostController extends Controller
 
         $post->fill($postData);
 
-        $post->slug = Post::convertToSlug($post->title);
+        //$post->slug = Post::convertToSlug($post->title);
 
         $post->update();
 
