@@ -46,8 +46,17 @@ class PostController extends Controller
    {
        $request->validate([
            'title'=> 'required|max:250',
-           'content'=> 'required'
+           'content'=> 'required|min:5',
+           'category' => 'required|exists:categories,id'
+       ],
+       [    //messaggi di errore dei requisiti sopra
+           'title.required' =>'Titolo deve essere valorizzato.',
+           'title.max' =>'Hai superato i 250 caratteri.',
+           'content.required' => 'Il contenuto deve essere compilato.',
+           'content.min' => 'Minimo 5 caratteri.',
+           'category_id.exists' => 'La categoria selezionata non esiste'
        ]);
+
        $postData = $request->all();
        $newPost = new Post();
        $newPost->fill($postData);
