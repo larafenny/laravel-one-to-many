@@ -140,14 +140,18 @@ class PostController extends Controller
     {
         //
         $request->validate([
-            'title' => 'required|max:250',
-            'content' => 'required|min:5',
-        ],
-        [
-            'title.required' =>'Titolo deve essere valorizzato',
-            'title.max' =>'Hai superato i 250 caratteri',
-            'content.min' => 'Minimo 5 caratteri'
-        ]);
+            'title'=> 'required|max:250',
+           'content'=> 'required|min:5',
+       ],
+       [    //messaggi di errore dei requisiti sopra
+           'title.required' =>'Titolo deve essere valorizzato.',
+           'title.max' =>'Hai superato i 250 caratteri.',
+           'content.required' => 'Il contenuto deve essere compilato.',
+           'content.min' => 'Minimo 5 caratteri.',
+           'category_id.exists' => 'La categoria selezionata non esiste'
+       ]);
+
+
         $postData = $request->all();
 
         $post->fill($postData);
