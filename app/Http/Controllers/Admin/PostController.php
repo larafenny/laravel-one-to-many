@@ -106,6 +106,7 @@ class PostController extends Controller
         if(!$post){
             abort(404);
         }
+
         return view('admin.posts.show', compact('post'));
     }
 
@@ -115,10 +116,17 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $post = Post::findOrFail($id);
-        return view('admin.posts.edit', compact('post'));
+
+        if(!$post){
+            abort(404);
+        }
+
+        //prendo tutte le categorie
+        $categories = Category::all();
+
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**

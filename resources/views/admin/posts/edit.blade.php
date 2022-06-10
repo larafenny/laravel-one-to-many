@@ -32,6 +32,27 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select name="category_id">
+                            <option value="">--Seleziona categoria--</option>
+                            @foreach($categories as $category)
+                                <option value="{{$category->id}}"
+                                    {{ $category->id == old('category_id', $post->category_id) ? 'selected' : ''}}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+
+                    </div>
+
+
+
                     <div class="form-group">
                         <label>Contenuto</label>
                         <textarea name="content" class="form-control" @error('content') is-invalid @enderror" rows="10"
