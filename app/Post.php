@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable = ['title', 'content', 'slug'];
+    protected $fillable = ['title', 'content', 'slug', 'category_id'];
+
+    //mappiamo relazione inversa di category per unire le due tabelle
+    public function category(){
+        return $this->belongsTo('App\Category');
+    }
 
     //input una stringa e restituisce uno slug univoco
     public static function convertToSlug($title){
