@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 
 
-Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
+Auth::routes(['register' => true, 'reset' => false, 'verify' => false]);
 
 Route::middleware('auth')
     ->namespace('Admin')
